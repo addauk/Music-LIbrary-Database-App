@@ -15,7 +15,8 @@ class DatabaseConnection
     if ENV['DATABASE_URL'] != nil
       @connection = PG.connect(ENV['DATABASE_URL'])
       return
-      
+    end
+
     if ENV['ENV'] == 'test'
       database_name = 'music_library_test'
     else
