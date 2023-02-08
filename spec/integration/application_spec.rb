@@ -65,9 +65,6 @@ describe Application do
         artist_id: '1'
       )
 
-      expect(response.status).to eq(200)
-      expect(response.body).to eq('')
-
       response = get('/albums')
       expect(response.body).to include('OK Computer')
     end
@@ -127,9 +124,6 @@ describe Application do
         name:'Radiohead',
         genre:'Rock'
       )
-
-      expect(response.status).to eq(200)
-      expect(response.body).to eq('')
 
       response = get('/artists')
       expect(response.body).to include('Radiohead')     

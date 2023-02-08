@@ -46,7 +46,7 @@ class Application < Sinatra::Base
     album.artist_id = params[:artist_id]
     repo.create(album)
 
-    return ''
+    return redirect('/albums')
   end
 
   get '/artists/new' do
@@ -79,7 +79,7 @@ class Application < Sinatra::Base
     artist.genre = params[:genre]
     repo.create(artist)
 
-    return ''
+    return  redirect('/artists')
   end
 
   private
