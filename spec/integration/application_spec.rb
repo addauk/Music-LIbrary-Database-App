@@ -11,13 +11,27 @@ describe Application do
   let(:app) { Application.new }
 
   context 'GET /albums' do
-    it 'shoud return all albums' do
+    it 'shoud return all albums formatted in an HTML page' do
       response = get('/albums')
-      expected_response = "Surfer Rosa, Waterloo, Super Trouper, Bossanova, Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring"
       expect(response.status).to eq(200)
-      expect(response.body).to eq(expected_response)
-    
+      expect(response.body).to include("<h1>Albums</h1>")
+      expect(response.body).to include("Title: <a href ='/albums/2'>Surfer Rosa</a>")
+      expect(response.body).to include("Released: 1988")
+      expect(response.body).to include("Title: <a href ='/albums/12'>Ring Ring</a>")
+      expect(response.body).to include("Released: 1973")
     end
+  end
+
+  context 'GET /albums/:id' do
+    it 'should return info about one album' do
+      response = get('/albums/2')
+      
+      expect(response.status).to eq 200
+      expect(response.body).to include('<h1>Surfer Rosa</h1>')
+      expect(response.body).to include('Release year: 1988')
+      expect(response.body).to include('Artist: Pixies')
+    end
+
   end
 
   context 'POST /albums' do
@@ -38,11 +52,23 @@ describe Application do
   end
 
   context 'GET /artists' do
-    it 'should return all artists' do
+    it 'should return an html page of all artists with links to each' do
       response = get('/artists')
-      expected_response = 'Pixies, ABBA, Taylor Swift, Nina Simone, Kiasmos'
       expect(response.status).to eq(200)
-      expect(response.body).to eq(expected_response)
+      expect(response.body).to include("<h1>Artists</h1>")
+      expect(response.body).to include("Name: <a href ='/artists/1'>Pixies</a>")
+      expect(response.body).to include("Genre: Rock")
+      expect(response.body).to include("Name: <a href ='/artists/4'>Nina Simone</a>")
+      expect(response.body).to include("Genre: Pop")
+    end
+  end
+
+  context 'GET /artists/:id' do
+    it 'should return an html page with details of the given artist' do
+      response = get('/artists/1')
+      expect(response.status).to eq 200
+      expect(response.body).to include("<h1>Pixies</h1>")
+      expect(response.body).to include("Genre: Rock")
     end
   end
 
